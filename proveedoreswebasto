@@ -1,0 +1,44 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import QRCode from "qrcode.react";
+
+export default function ProveedoresQR() {
+  const [proveedores, setProveedores] = useState([
+    { id: 1, nombre: "Empresa A", estado: "Activo" },
+    { id: 2, nombre: "Empresa B", estado: "Inactivo" },
+  ]);
+  const [empleados, setEmpleados] = useState([
+    { id: 101, nombre: "Juan Pérez", empresa: "Empresa A", estado: "Activo" },
+    { id: 102, nombre: "María Gómez", empresa: "Empresa B", estado: "Inactivo" },
+  ]);
+
+  return (
+    <div className="p-4 grid gap-4 grid-cols-1 md:grid-cols-2">
+      <div>
+        <h2 className="text-xl font-bold mb-4">Proveedores</h2>
+        {proveedores.map((prov) => (
+          <Card key={prov.id} className="mb-2 p-4">
+            <CardContent>
+              <p className="text-lg font-semibold">{prov.nombre}</p>
+              <p className={`text-${prov.estado === "Activo" ? "green" : "red"}-500`}>{prov.estado}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      <div>
+        <h2 className="text-xl font-bold mb-4">Empleados</h2>
+        {empleados.map((emp) => (
+          <Card key={emp.id} className="mb-2 p-4">
+            <CardContent>
+              <p className="text-lg font-semibold">{emp.nombre}</p>
+              <p className="text-gray-600">Empresa: {emp.empresa}</p>
+              <p className={`text-${emp.estado === "Activo" ? "green" : "red"}-500`}>{emp.estado}</p>
+              <QRCode value={`Empleado: ${emp.nombre}, Estado: ${emp.estado}`} className="mt-2" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
